@@ -3,10 +3,22 @@ import ReactDOM from "react-dom";
 
 import Routes from "./Routes";
 import * as serviceWorker from "./serviceWorker";
+import styled from "styled-components";
+
+const GlobalStyle = styled.div`
+  display:flex;
+  flex-direction:column;
+  background-color: #111;
+  margin:0;
+  padding:0;
+  
+`;
 
 ReactDOM.render(
   <React.StrictMode>
-    <Routes />
+    <GlobalStyle>
+      <Routes />
+    </GlobalStyle>
   </React.StrictMode>,
   document.getElementById("root")
 );

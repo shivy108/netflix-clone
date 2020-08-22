@@ -10,15 +10,15 @@ const truncate = (str, n) => {
 };
 const Header = styled.header`
   height: 28rem;
-  background-position: center;
-  background-repeat: no-repeat;
   background-size: cover;
   object-fit: cover;
   ${({ image }) =>
     image &&
     `
 background-image:url("https://image.tmdb.org/t/p/original/${image?.backdrop_path}")
+
 `}
+
 `;
 const HeaderTitle = styled.h1`
   font-size: 3rem;
@@ -35,7 +35,10 @@ const HeaderDescription = styled.h3`
 const HeaderContent = styled.div`
   color: whitesmoke;
 `;
-const HeaderButton = styled.button``;
+const HeaderButton = styled.button`
+&:hover {
+    transform: scale(1.01);
+  }`;
 
 // React
 function Banner() {
