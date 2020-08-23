@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiPlay } from "react-icons/fi";
-import PacmanLoader from "react-spinners/PacmanLoader";
 import YouTube from "react-youtube";
 
 import axios from "../../axios";
