@@ -49,6 +49,11 @@ const RowPosters = styled.div`
     display: none;
   }
 `;
+const PosterName = styled.div`
+  height: 100px;
+  width: 200px;
+  color: white;
+`;
 // React
 
 // API
@@ -57,6 +62,8 @@ const base_url = "https://image.tmdb.org/t/p/w500/";
 function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovies] = useState([]);
   const [trailerUrl, setTrailerUrl] = useState();
+  const [displayName, setDisplayName] = useState(false);
+  const [movieTitle, setmovieTitle] = useState("");
 
   const scrollRow = () => {
     // console.log("hello")
@@ -89,18 +96,22 @@ function Row({ title, fetchUrl, isLargeRow }) {
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
-      movieTrailer(movie?.name || movie?.title || movie?.original_name , "")
-        .then(response => {
-          console.log(response)
+      movieTrailer(movie?.name || movie?.title || movie?.original_name, "")
+        .then((response) => {
+          console.log(response);
           const urlParams = new URLSearchParams(new URL(response).search);
           setTrailerUrl(urlParams.get("v"));
         })
         .catch((error) => console.log(error));
     }
   };
+  const mouseOverHandler = (movie) => {
+    console.log(displayName);
+    setDisplayName(true);
+    setmovieTitle(movie?.name);
+  };
 
   return (
-    
     <RowContainer>
       {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
       <RowTitle>{title}</RowTitle>
@@ -108,6 +119,9 @@ function Row({ title, fetchUrl, isLargeRow }) {
         {movies.map((movie, id) => {
           return (
             <RowImg
+              onMouseOver={() => {
+                mouseOverHandler(movie);
+              }}
               onClick={() => {
                 onCLickHandler(movie);
               }}
@@ -120,8 +134,9 @@ function Row({ title, fetchUrl, isLargeRow }) {
             />
           );
         })}
+        {displayName ? <PosterName>{movieTitle?.name}</PosterName> : <></>}
       </RowPosters>
-      
+
       <RowScrollLeft onMouseOver={scrollRow} />
     </RowContainer>
   );

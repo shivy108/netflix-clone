@@ -6,6 +6,7 @@ import Banner from "../../Components/Banner";
 import Nav from "../../Components/Nav";
 
 const LandingPage = () => {
+ 
   return (
     <>
       <Nav />

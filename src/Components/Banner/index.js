@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {AiOutlinePlus} from 'react-icons/ai';
-import {FiPlay} from 'react-icons/fi';
+import { AiOutlinePlus } from "react-icons/ai";
+import { FiPlay } from "react-icons/fi";
+import PacmanLoader from "react-spinners/PacmanLoader";
+import YouTube from "react-youtube";
 
 import axios from "../../axios";
 import requests from "../../axios/requests";
 import styled from "styled-components";
+const movieTrailer = require("movie-trailer");
 
 // Style
 const truncate = (str, n) => {
@@ -36,7 +39,7 @@ const HeaderDescription = styled.h3`
   height: 80px;
 `;
 const HeaderContent = styled.div`
-  height:100%;
+  height: 100%;
   color: whitesmoke;
   margin-top: 2rem;
   margin-left: 2rem;
@@ -66,13 +69,25 @@ const HeaderButton = styled.button`
     color: #111;
   }
 `;
-const HeaderFade=styled.div`
-`
+const HeaderFade = styled.div`
+height:7rem;
+width:100%;
+background-image: linear-gradient(180deg,transparent,rgba(37,37,37,0.61),#111);
+`;
 
 // React
 function Banner() {
   const [movie, setMovie] = useState([]);
-  console.log(movie)
+  const [trailerUrl, setTrailerUrl] = useState();
+
+  const opts = {
+    height: "500",
+    width: "100%",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,17 +103,39 @@ function Banner() {
     };
     fetchData();
   }, []);
+  const onCLickHandler = (movie) => {
+    if (trailerUrl) {
+      setTrailerUrl("");
+    } else {
+      movieTrailer(movie?.name || movie?.title || movie?.original_name, "")
+        .then((response) => {
+          console.log(response);
+          const urlParams = new URLSearchParams(new URL(response).search);
+          setTrailerUrl(urlParams.get("v"));
+        })
+        .catch((error) => console.log(error));
+    }
+  };
 
   return (
-    <Header image={movie}>
+    <Header image={movie} >
+      {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
       <HeaderContent>
         <HeaderTitle>
           {movie?.name || movie?.title || movie?.original_name}
         </HeaderTitle>
         <HeaderDescription>{truncate(movie?.overview, 200)}</HeaderDescription>
         <ButtonContainer>
-          <HeaderButton>Play <FiPlay/></HeaderButton>
-          <HeaderButton>My List <AiOutlinePlus/></HeaderButton>
+          <HeaderButton
+            onClick={() => {
+              onCLickHandler(movie);
+            }}
+          >
+            Play <FiPlay />
+          </HeaderButton>
+          <HeaderButton>
+            My List <AiOutlinePlus />
+          </HeaderButton>
         </ButtonContainer>
       </HeaderContent>
       <HeaderFade></HeaderFade>
