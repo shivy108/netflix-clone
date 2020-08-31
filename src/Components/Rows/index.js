@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "../../axios";
 import YouTube from "react-youtube";
+// import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+// import { HiOutlineArrowCircleRight } from "react-icons/hi";
 const movieTrailer = require("movie-trailer");
 
 // Style
@@ -10,33 +12,29 @@ const RowTitle = styled.h2`
   margin-left: 2rem;
   font-family: "Bebas Neue", cursive;
 `;
-const RowScrollLeft = styled.div`
-  height: 100px;
-  width: 100px;
-  float: left;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index: 1000;
-  margin-top: 10rem;
-`;
 
 const RowImg = styled.img`
+  width: 100%;
   height: 10rem;
   transition: transform 450ms;
   &:hover {
     transform: scale(1.18);
+    padding: 2px;
   }
-  padding: 0.825rem;
+  padding: 2px;
   ${({ style }) =>
     style &&
     `
   height:20rem;
+  padding: 2px;
   &:hover {
-    transform: scale(1.20);
+    transform: scale(1.18);
+    padding:2px;
   }
   `}
 `;
+
+
 const RowContainer = styled.div`
   position: relative;
 `;
@@ -49,11 +47,41 @@ const RowPosters = styled.div`
     display: none;
   }
 `;
-const PosterName = styled.div`
-  height: 100px;
-  width: 200px;
-  color: white;
-`;
+// const Left = styled.div`
+//   margin-top: 110px;
+//   float: left;
+//   position: absolute;
+//   z-index: 1;
+//   font-size: 80px;
+//   color: transparent;
+//   transition: 450ms;
+//   &:hover {
+//     transform: scale(1.08);
+//     color: whitesmoke;
+//     transition: 450ms;
+//     opacity: 0.6;
+//   }
+// `;
+// const Right = styled.div`
+//   margin-left: 79rem;
+//   position: absolute;
+//   margin-top: 110px;
+//   z-index: 1;
+//   font-size: 80px;
+//   color: transparent;
+//   transition: 450ms;
+//   &:hover {
+//     transform: scale(1.08);
+//     color: whitesmoke;
+//     transition: 450ms;
+//     opacity: 0.6;
+//   }
+//   &:hover {
+//     transform: scale(1.08);
+//     color: whitesmoke;
+//     transition: 450ms;
+//   }
+// `;
 // React
 
 // API
@@ -62,17 +90,6 @@ const base_url = "https://image.tmdb.org/t/p/w500/";
 function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovies] = useState([]);
   const [trailerUrl, setTrailerUrl] = useState();
-  const [displayName, setDisplayName] = useState(false);
-  const [movieTitle, setmovieTitle] = useState("");
-
-  const scrollRow = () => {
-    // console.log("hello")
-    // document.getElementById("1").scroll({
-    //   top: 0,
-    //   left: 100,
-    //   behaviour: 'smooth'
-    //  })
-  };
 
   const opts = {
     height: "550",
@@ -105,23 +122,21 @@ function Row({ title, fetchUrl, isLargeRow }) {
         .catch((error) => console.log(error));
     }
   };
-  const mouseOverHandler = (movie) => {
-    console.log(displayName);
-    setDisplayName(true);
-    setmovieTitle(movie?.name);
-  };
 
   return (
     <RowContainer>
       {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
       <RowTitle>{title}</RowTitle>
       <RowPosters>
+        {/* <Left>
+          <HiOutlineArrowCircleLeft />
+        </Left>
+        <Right>
+          <HiOutlineArrowCircleRight />
+        </Right> */}
         {movies.map((movie, id) => {
           return (
             <RowImg
-              onMouseOver={() => {
-                mouseOverHandler(movie);
-              }}
               onClick={() => {
                 onCLickHandler(movie);
               }}
@@ -134,10 +149,8 @@ function Row({ title, fetchUrl, isLargeRow }) {
             />
           );
         })}
-        {displayName ? <PosterName>{movieTitle?.name}</PosterName> : <></>}
+        
       </RowPosters>
-
-      <RowScrollLeft onMouseOver={scrollRow} />
     </RowContainer>
   );
 }

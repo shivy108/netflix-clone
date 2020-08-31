@@ -9,6 +9,7 @@ const GlobalStyle = styled.div`
   display:flex;
   flex-direction:column;
   background-color: #111;
+  scroll-behavior: smooth;
   margin:0;
   padding:0;
   

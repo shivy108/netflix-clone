@@ -6,6 +6,7 @@ import YouTube from "react-youtube";
 import axios from "../../axios";
 import requests from "../../axios/requests";
 import styled from "styled-components";
+import {IoIosCloseCircleOutline} from "react-icons/io";
 const movieTrailer = require("movie-trailer");
 
 // Style
@@ -14,6 +15,7 @@ const truncate = (str, n) => {
 };
 const Header = styled.header`
   height: 28rem;
+  width:100%;
   background-size: cover;
   object-fit: cover;
   ${({ image }) =>
@@ -71,8 +73,12 @@ const HeaderButton = styled.button`
 const HeaderFade = styled.div`
 height:7rem;
 width:100%;
+position:absolute;
+z-index: 1;
 background-image: linear-gradient(180deg,transparent,rgba(37,37,37,0.61),#111);
+margin-top:21rem;
 `;
+
 
 // React
 function Banner() {
@@ -118,6 +124,8 @@ function Banner() {
 
   return (
     <Header image={movie} >
+      <HeaderFade></HeaderFade>
+      {trailerUrl?<div  onClick={()=>setTrailerUrl("")}><IoIosCloseCircleOutline/></div>:<></>}
       {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
       <HeaderContent>
         <HeaderTitle>
@@ -136,8 +144,9 @@ function Banner() {
             My List <AiOutlinePlus />
           </HeaderButton>
         </ButtonContainer>
+        
       </HeaderContent>
-      <HeaderFade></HeaderFade>
+      
     </Header>
   );
 }
