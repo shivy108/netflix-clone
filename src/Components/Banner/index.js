@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
-import { FiPlay } from "react-icons/fi";
 import YouTube from "react-youtube";
 
 import axios from "../../axios";
@@ -124,7 +122,7 @@ function Banner() {
 
   return (
     <Header image={movie} >
-      <HeaderFade></HeaderFade>
+      {trailerUrl?<></>:<HeaderFade></HeaderFade>}
       {trailerUrl?<div  onClick={()=>setTrailerUrl("")}><IoIosCloseCircleOutline/></div>:<></>}
       {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
       <HeaderContent>
@@ -138,10 +136,10 @@ function Banner() {
               onCLickHandler(movie);
             }}
           >
-            Play <FiPlay />
+            Play 
           </HeaderButton>
           <HeaderButton>
-            My List <AiOutlinePlus />
+            My List 
           </HeaderButton>
         </ButtonContainer>
         

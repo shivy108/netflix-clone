@@ -14,7 +14,7 @@ const RowTitle = styled.h2`
 `;
 
 const RowImg = styled.img`
-  width: 100%;
+  
   height: 10rem;
   transition: transform 450ms;
   &:hover {
